@@ -1,20 +1,21 @@
 #!/bin/bash
 
-echo "Supression de :"
 allFilesSize=0
 
-for i in *
+echo "Supression de :"
+
+for file in *
 do
-    if [ -f $i ]
+    if [ -f $file ]  && [[ $file != $BASH_SOURCE ]]
     then
-        fileSize=$(stat -c "%s" $i)
-        if [ "$fileSize" -lt "$1" ]
+        fileSize=$(stat -c "%s" $file)
+        if [ "$fileSize" -lt "$1" ] #$1 is a parameter that the user enters to set the size
         then
-            echo $i "-" $fileSize "bytes"
-            # rm $i
+            echo $file "-" $fileSize "bytes"
+            rm $file
         else
             allFilesSize=$(($allFilesSize+$fileSize))
         fi
     fi
 done
-    echo "Le total des fichiers restant fait : " $allFilesSize
+    echo "Le total des fichiers restant fait : " $allFilesSize "bytes"
